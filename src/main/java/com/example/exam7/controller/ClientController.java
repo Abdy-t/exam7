@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/register")
 public class ClientController {
     private final UserAuthService userAuthService;
     private final ClientService clientService;
@@ -17,7 +17,7 @@ public class ClientController {
         this.clientService=clientService;
     }
 
-    @PostMapping(path="/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ClientDTO registerClient(@RequestBody ClientDTO clientDTO) {
         return clientService.register(clientDTO);
     }
