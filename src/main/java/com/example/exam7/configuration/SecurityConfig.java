@@ -40,11 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Правило 1: Всё, что начинается с /subscriptions
         // должно быть доступно только
         // после авторизации пользователя
-//        http.authorizeRequests()
-//                .antMatchers("/page/**")
-//                .permitAll()
-//                .antMatchers("/profile/**")
-//                .fullyAuthenticated();
+        http.authorizeRequests()
+                .antMatchers("/order/**")
+                .fullyAuthenticated();
 
         // Правило 2: Разрешить всё остальные запросы
         http.authorizeRequests()

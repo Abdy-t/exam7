@@ -17,18 +17,26 @@ public class ClientService {
     }
 
     public Client getClient() {
-        // get current authenticated user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return clientRepository.findByEmail(auth.getName()).get();
     }
 
-    public ClientDTO register(ClientDTO clientDTO){
-        var user = Client.builder()
-                .name(clientDTO.getName())
-                .email(clientDTO.getEmail())
-                .password(new BCryptPasswordEncoder().encode(clientDTO.getPassword()))
-                .build();
-        clientRepository.save(user);
-        return ClientDTO.from(user);
+    public ClientDTO register(ClientDTO clientDTO) {
+        if (clientRepository.existsByEmail(clientDTO.getEmail())) {
+            var user = Client.builder()
+                    .name("Try again")
+                    .email("A client with " + clientDTO.getEmail() + " email already exists")
+                    .password("***")
+                    .build();
+            return ClientDTO.from(user);
+        } else {
+            var user = Client.builder()
+                    .name(clientDTO.getName())
+                    .email(clientDTO.getEmail())
+                    .password(new BCryptPasswordEncoder().encode(clientDTO.getPassword()))
+                    .build();
+            clientRepository.save(user);
+            return ClientDTO.from(user);
+        }
     }
 }
